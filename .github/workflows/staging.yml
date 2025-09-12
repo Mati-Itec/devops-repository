@@ -3,22 +3,17 @@ name: Deploy to Staging
 on:
   push:
     branches:
-      - develop   # 👈 solo cuando subís a develop
+      - develop
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
+      - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Deploy to server
-        uses: appleboy/ssh-action@v0.1.10
-        with:
-          host: ${{ secrets.SERVER_IP }}
-          username: ${{ secrets.SERVER_USER }}
-          key: ${{ secrets.SERVER_SSH_KEY }}
-          script: |
-            cd ~/lemp-sites/quiroga_matias/staging
-            git pull origin develop
+      - name: Deploy to Staging (local simulation)
+        run: |
+          cp -r . ~/lemp-sites/matias_quiroga/staging/
+
