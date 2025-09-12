@@ -1,0 +1,24 @@
+name: Deploy to Production
+
+on:
+  push:
+    branches:
+      - main   # 👈 se ejecuta cuando subís a main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Deploy to server
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+          host: ${{ secrets.SERVER_IP }}        # IP de tu servidor
+          username: ${{ secrets.SERVER_USER }}  # Usuario SSH
+          key: ${{ secrets.SERVER_SSH_KEY }}    # Clave privada
+          script: |
+            cd ~/lemp-sites/nombre_apellido/prod
+            git pull origin main
